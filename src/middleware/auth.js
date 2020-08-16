@@ -20,9 +20,9 @@ const auth = async (req, res, next) => {
             throw new Error();
         }
 
-        if (req.header('CSRF-Token') != decoded._scrf) {
-            throw new Error();
-        }
+        // if (req.header('CSRF-Token') != decoded._scrf) {
+        //     throw new Error();
+        // }
 
         req.token = token;
         req.user = user;
@@ -37,7 +37,8 @@ const auth = async (req, res, next) => {
 
 const newToken = async (req, res, next) => {
     try {
-        const refreshToken = req.cookies['RefreshToken'];
+        // const refreshToken = req.cookies['RefreshToken'];
+        const refreshToken = req.body['refreshToken'];
       
         const decodedRefresh = jwt.verify(refreshToken, process.env.JWT_SECRET);
 
@@ -53,9 +54,9 @@ const newToken = async (req, res, next) => {
             throw new Error();
         }
 
-        if (req.header('CSRF-Token') != decodedRefresh._scrf) {
-            throw new Error();
-        }
+        // if (req.header('CSRF-Token') != decodedRefresh._scrf) {
+        //     throw new Error();
+        // }
 
         const tokens = await user.generateAuthToken();
         req.token = tokens.token;
